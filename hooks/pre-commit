@@ -1,0 +1,32 @@
+#! /bin/bash
+
+echo "Starting pre-commit check..."
+
+echo "Starting code prettier checking"
+npm run format:check
+if [$? -ne 0]; then
+    echo "Prettier check failed , trying make pretty"
+    npm run format
+    if[$? -ne 0]; then
+    echo "cannot make pretty , check , something goes wrong"
+    exit 1
+    fi
+    echo "Code is pretty now"
+fi 
+
+echo "Running ESlint"
+npx eslint . --ext .ts
+if [$? -ne 0];then 
+    echo "ESlint faild , correct your code errors before push"
+    exit 1
+fi
+
+echo "Running jest tests"
+npm run test:coverage
+if[$? -ne 0];then 
+    echo "something went wrong with test.commit aborted"
+    exit 1
+fi
+
+echo "All pre-commit checks are passed, commiting"
+exit 0

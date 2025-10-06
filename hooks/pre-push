@@ -1,0 +1,13 @@
+#! /bin/bash
+
+echo "Starting pre-push checks"
+
+echo "Checking typescript types "
+npx tsc --noEmit
+if [$? -ne 0];then
+    echo "Type error, push aborted"
+    exit 1
+fi
+
+echo "pre-push checks are done, pushing"
+exit 0
