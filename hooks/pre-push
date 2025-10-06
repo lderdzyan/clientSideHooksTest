@@ -3,11 +3,11 @@
 echo "Starting pre-push checks..."
 
 echo "Checking TypeScript types..."
-npx tsc --noEmit
+npx tsc --project tsconfig.json --noEmit
 if [ $? -ne 0 ]; then
-  echo "Type error, push aborted."
+  echo "Type errors found. Push aborted."
   exit 1
 fi
 
-echo "Pre-push checks passed, pushing..."
+echo "Pre-push checks passed. Pushing..."
 exit 0
