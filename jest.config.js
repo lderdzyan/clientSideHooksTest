@@ -1,8 +1,13 @@
-export default {
+/** @type {import('jest').Config} */
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+
+  // Collect coverage info
   collectCoverage: true,
   coverageDirectory: 'coverage',
+
+  // Enforce minimum coverage
   coverageThreshold: {
     global: {
       branches: 80,
@@ -11,4 +16,7 @@ export default {
       statements: 85,
     },
   },
+
+  // Match only test files
+  testMatch: ['**/?(*.)+(spec|test).[tj]s'],
 };

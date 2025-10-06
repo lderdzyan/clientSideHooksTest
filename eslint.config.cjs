@@ -1,29 +1,37 @@
-import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import prettier from 'eslint-config-prettier';
-import pluginPrettier from 'eslint-plugin-prettier';
+// eslint.config.cjs
+const js = require("@eslint/js");
+const tseslint = require("typescript-eslint");
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
-export default [
+module.exports = [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  prettier,
   {
-    plugins: {
-      prettier: pluginPrettier
-    },
     rules: {
-      'prettier/prettier': 'error',
-      '@typescript-eslint/no-unused-vars': ['warn'],
-      'no-console': 'off'
+      "@typescript-eslint/no-require-imports": "off",
+
+
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn"],
+
+      "no-console": "warn",
+      "eqeqeq": ["error", "always"],
+      "curly": ["error", "all"],
+      "no-debugger": "error"
     },
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module'
+        ecmaVersion: "latest",
+        sourceType: "module"
+      },
+      globals: {
+        require: "readonly",
+        module: "readonly",
+        __dirname: "readonly",
+        process: "readonly"
       }
     },
-    ignores: ['dist', 'node_modules', 'coverage']
+    ignores: ["dist", "node_modules", "coverage"]
   }
 ];

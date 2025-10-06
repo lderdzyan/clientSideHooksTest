@@ -1,5 +1,4 @@
 {
-
   "name": "clientsidehookstest",
   "version": "1.0.0",
   "description": "",
@@ -7,24 +6,22 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
-
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
-  }
-,
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-    "dependencies": {
+  "dependencies": {
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.4",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0"
   }
 }
