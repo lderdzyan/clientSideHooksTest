@@ -3,11 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
 
-  // Collect coverage info
   collectCoverage: true,
   coverageDirectory: 'coverage',
 
-  // Enforce minimum coverage
   coverageThreshold: {
     global: {
       branches: 80,
@@ -16,7 +14,5 @@ module.exports = {
       statements: 85,
     },
   },
-
-  // Match only test files
   testMatch: ['**/?(*.)+(spec|test).[tj]s'],
 };
