@@ -15,11 +15,13 @@ echo "🔍 Running pre-push security audit..."
 
 audit_data=$(npm audit --json 2>/dev/null)
 
-
+low=$(echo "$audit_data" | jq '.metadata.vulnerabilities.low')
+moderate=$(echo "$audit_data" | jq '.metadata.vulnerabilities.moderate')
+high=$(echo "$audit_data" | jq '.metadata.vulnerabilities.high')
 critical=$(echo "$audit_data" | jq '.metadata.vulnerabilities.critical')
 
+echo "Low: $low | Moderate: $moderate | High: $high"
 
-critical=${critical:-0}
 
 if [ "$critical" -gt 0 ]; then
   echo "Found $critical critical vulnerabilities. Attempting to fix..."
