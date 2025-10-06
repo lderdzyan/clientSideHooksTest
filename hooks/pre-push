@@ -9,5 +9,40 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "Pre-push checks passed. Pushing..."
+
+echo "Running pre-push security audit..."
+
+
+audit_data=$(npm audit --json 2>/dev/null)
+
+low=$(echo "$audit_data" | jq '.metadata.vulnerabilities.low')
+moderate=$(echo "$audit_data" | jq '.metadata.vulnerabilities.moderate')
+high=$(echo "$audit_data" | jq '.metadata.vulnerabilities.high')
+critical=$(echo "$audit_data" | jq '.metadata.vulnerabilities.critical')
+
+
+echo "Low: $low | Moderate: $moderate | High: $high"
+
+
+if [ "$critical" -gt 0 ]; then
+  echo "Found $critical critical vulnerabilities. Attempting to fix..."
+
+  npm audit fix --force >/dev/null 2>&1
+
+  audit_data_after=$(npm audit --json 2>/dev/null)
+  critical_after=$(echo "$audit_data_after" | jq '.metadata.vulnerabilities.critical')
+  critical_after=${critical_after:-0}
+
+  if [ "$critical_after" -gt 0 ]; then
+    echo "Still $critical_after critical vulnerabilities remain after fix."
+    echo "Push aborted. Please manually fix vulnerable dependencies."
+    exit 1
+  else
+    echo "Critical vulnerabilities fixed successfully."
+  fi
+else
+  echo "No critical vulnerabilities found."
+fi
+
+echo "Pre-push security check passed. Proceeding with push..."
 exit 0
